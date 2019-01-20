@@ -2,7 +2,7 @@ $(document).ready(function() {
 
     var topics = ["cat", "dog", "horse"];
 
-    var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=1Wgl9oZdl7S0d1OGv2FAM6O2EpIyGU7T&limit=10&rating=g&q=";
+    var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=1Wgl9oZdl7S0d1OGv2FAM6O2EpIyGU7T&limit=10&rating=pg&q=";
 
     function displayGifs() {
         var $thisTopic = $(this).attr("data-name");
@@ -13,8 +13,11 @@ $(document).ready(function() {
             console.log(response);
             $("#gifs-go-here").empty();
             for (var i = 0; i < response.data.length; i++) {
-
+                var $card = $("<div>");
                 var $img = $("<img>");
+                var $rating = $("<p>");
+
+                $rating.text("Rating: " + response.data[i].rating);
 
                 $img.addClass("gif");
 
@@ -26,7 +29,9 @@ $(document).ready(function() {
 
                 $img.attr("data-state", "still");
 
-                $("#gifs-go-here").append($img);
+                $("#gifs-go-here").append($card)
+                
+                $card.append($rating).append($img);
             };
         });
 
@@ -57,12 +62,8 @@ $(document).ready(function() {
 
     $(document).on("click", ".topic", displayGifs);
 
-    $(document).on("click", ".gif", function () {
-        
+    $(document).on("click", ".gif", function () {  
         var state = $(this).attr("data-state");
-
-        console.log(state);
-
         if (state === "still") {
             $(this).attr("src", $(this).attr("data-animate")).attr("data-state", "animate");
         } else {

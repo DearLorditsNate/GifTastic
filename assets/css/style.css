@@ -27,4 +27,9 @@ input {
 
 img {
     margin: 20px;
+    display: inline-block;
+}
+
+p {
+    display: inline-block;
 }
