@@ -33,3 +33,7 @@ img {
 p {
     display: inline-block;
 }
+
+#gifs-go-here {
+    min-width: 100%;
+}

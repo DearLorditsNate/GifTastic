@@ -13,25 +13,43 @@ $(document).ready(function() {
             console.log(response);
             $("#gifs-go-here").empty();
             for (var i = 0; i < response.data.length; i++) {
-                var $card = $("<div>");
-                var $img = $("<img>");
-                var $rating = $("<p>");
+                // var $card = $("<div>");
+                // var $img = $("<img>");
+                // var $rating = $("<p>");
 
-                $rating.text("Rating: " + response.data[i].rating);
+                // $rating.text("Rating: " + response.data[i].rating);
 
-                $img.addClass("gif");
+                // $img.addClass("gif");
 
-                $img.attr("src", response.data[i].images.fixed_height_still.url);
+                // $img.attr("src", response.data[i].images.fixed_height_still.url);
 
-                $img.attr("data-still", response.data[i].images.fixed_height_still.url);
+                // $img.attr("data-still", response.data[i].images.fixed_height_still.url);
 
-                $img.attr("data-animate", response.data[i].images.fixed_height.url);
+                // $img.attr("data-animate", response.data[i].images.fixed_height.url);
 
-                $img.attr("data-state", "still");
+                // $img.attr("data-state", "still");
 
-                $("#gifs-go-here").append($card)
+
+
+                // $("#gifs-go-here").append($card)
                 
-                $card.append($rating).append($img);
+                // $card.append($rating).append($img);
+
+
+                var $cardDiv = $("<div>").addClass("card col-3 m-2").attr("style", "width: 18rem");
+
+                var $cardImg = $("<img>").addClass("card-img-top gif mx-auto").attr("src", response.data[i].images.fixed_height_still.url).attr("data-still", response.data[i].images.fixed_height_still.url).attr("data-animate", response.data[i].images.fixed_height.url).attr("data-state", "still");;
+
+                var $cardBody = $("<div>").addClass("card-body");
+
+                var $cardText = $("<p>").addClass("card-text").text("Rating: " + response.data[i].rating);
+
+                $cardBody.append($cardText);
+
+                $cardDiv.append($cardImg).append($cardBody);
+
+                $("#gifs-go-here").append($cardDiv);
+                
             };
         });
 
