@@ -13,7 +13,19 @@ $(document).ready(function() {
             console.log(response);
             $("#gifs-go-here").empty();
             for (var i = 0; i < response.data.length; i++) {
-                var $img = $("<img>").attr("src", response.data[i].images.fixed_height.url)
+
+                var $img = $("<img>");
+
+                $img.addClass("gif");
+
+                $img.attr("src", response.data[i].images.fixed_height_still.url);
+
+                $img.attr("data-still", response.data[i].images.fixed_height_still.url);
+
+                $img.attr("data-animate", response.data[i].images.fixed_height.url);
+
+                $img.attr("data-state", "still");
+
                 $("#gifs-go-here").append($img);
             };
         });
@@ -44,6 +56,19 @@ $(document).ready(function() {
     });
 
     $(document).on("click", ".topic", displayGifs);
+
+    $(document).on("click", ".gif", function () {
+        
+        var state = $(this).attr("data-state");
+
+        console.log(state);
+
+        if (state === "still") {
+            $(this).attr("src", $(this).attr("data-animate")).attr("data-state", "animate");
+        } else {
+            $(this).attr("src", $(this).attr("data-still")).attr("data-state", "still");
+        }
+    });
 
     renderButtons(topics);
 });
