@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-    var topics = ["cat", "dog", "horse"];
+    var topics = ["cat", "dog", "horse", "frog", "snake", "hamster", "fish", "bird", "aligator", "buffalo", "eagle"];
 
     var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=1Wgl9oZdl7S0d1OGv2FAM6O2EpIyGU7T&limit=10&rating=pg&q=";
 
@@ -18,9 +18,9 @@ $(document).ready(function() {
 
                 var $cardImg = $("<img>").addClass("card-img-top gif mx-auto").attr("src", response.data[i].images.fixed_height_still.url).attr("data-still", response.data[i].images.fixed_height_still.url).attr("data-animate", response.data[i].images.fixed_height.url).attr("data-state", "still");;
 
-                var $cardBody = $("<div>").addClass("card-body");
+                var $cardBody = $("<div>").addClass("card-body text-center");
 
-                var $cardText = $("<p>").addClass("card-text").text("Rating: " + response.data[i].rating);
+                var $cardText = $("<p>").addClass("card-text font-weight-bold").text("Rating: " + response.data[i].rating);
 
                 $cardBody.append($cardText);
 
@@ -47,7 +47,7 @@ $(document).ready(function() {
     $("#add-topic").on("click", function (event) {
         event.preventDefault();
         var topic = $("#topic-input").val();
-        if (!topic) {
+        if (!String(topic).trim()) {
             alert("Enter something into the text box!");
         } else {
             topics.push(topic);
