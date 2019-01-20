@@ -24,16 +24,3 @@ button,
 input {
     margin: 10px;
 }
-
-img {
-    margin: 20px;
-    display: inline-block;
-}
-
-p {
-    display: inline-block;
-}
-
-#gifs-go-here {
-    min-width: 100%;
-}
