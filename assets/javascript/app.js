@@ -34,8 +34,13 @@ $(document).ready(function() {
     $("#add-topic").on("click", function (event) {
         event.preventDefault();
         var topic = $("#topic-input").val();
-        topics.push(topic);
-        renderButtons(topics);
+        if (!topic) {
+            alert("Enter something into the text box!");
+        } else {
+            topics.push(topic);
+            renderButtons(topics);
+            $("#topic-input").val("");
+        }
     });
 
     $(document).on("click", ".topic", displayGifs);
