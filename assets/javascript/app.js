@@ -47,7 +47,7 @@ $(document).ready(function() {
     $("#add-topic").on("click", function (event) {
         event.preventDefault();
         var topic = $("#topic-input").val();
-        if (!String(topic).trim()) {
+        if (!topic.trim()) {
             alert("Enter something into the text box!");
         } else {
             topics.push(topic);
