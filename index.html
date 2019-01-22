@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,8 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
-    integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+        crossorigin="anonymous">
 
     <!-- CSS Reset -->
     <link rel="stylesheet" type="text/css" media="screen" href="assets/css/reset.css" />
@@ -17,37 +18,52 @@
     <link rel="stylesheet" type="text/css" media="screen" href="assets/css/style.css" />
 
 </head>
+
 <body>
 
     <div class="container-fluid">
         <div class="row">
             <div class="col-8">
                 <div id="buttons-list"></div>
+                <hr>
             </div>
             <div class="col-4">
-                <form id="topic-form">
-                    <label for="topic-input">Add an animal!</label>
-                    <input type="text" id="topic-input"><br>
-        
-                    <!-- Button triggers new topic to be added -->
-                    <input id="add-topic" type="submit" value="Click here to add">
-                </form>
+                <h1>Favorites</h1>
+                <hr>
             </div>
         </div>
 
         <div class="row">
-            <div class="col text-center my-2">
-                <h1>1. Click a button above to display gifs.<br>2. Click any image to animate it and again to stop.<br>3. Add your own buttons and repeat!</h1>
+            <div class="col-8">
+                <form id="topic-form">
+                    <label for="topic-input">Add an animal!</label>
+                    <input type="text" id="topic-input"><br>
+
+                    <!-- Button triggers new topic to be added -->
+                    <input id="add-topic" type="submit" value="Click here to add">
+                </form>
                 <hr>
             </div>
-        </div>
-        
 
-        <div class="row d-flex justify-content-around" id="gifs-go-here"></div>
+        </div>
+
+        <div class="row">
+            <div class="col-8 text-center my-2">
+                <h1>1. Click a button above to display gifs.<br>2. Click any image to animate it and again to stop.<br>3.
+                    Add your own buttons and repeat!</h1>
+                <hr>
+            </div>
+
+            <div class="col-4 mt-2"></div>
+        </div>
+
+
+        <div class="row d-flex justify-content-around" id="gifs-go-here">
+        </div>
     </div>
 
 
-    
+
 
 
     <!-- Bootstrap JavaScript -->
@@ -61,9 +77,11 @@
         crossorigin="anonymous"></script>
 
     <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+        crossorigin="anonymous"></script>
 
     <!-- JS -->
     <script src="assets/javascript/app.js"></script>
 </body>
+
 </html>

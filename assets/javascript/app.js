@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
 
     var topics = ["cat", "dog", "horse", "frog", "snake", "hamster", "fish", "bird", "aligator", "buffalo", "eagle"];
 
@@ -14,7 +14,7 @@ $(document).ready(function() {
             $("#gifs-go-here").empty();
             for (var i = 0; i < response.data.length; i++) {
 
-                var $cardDiv = $("<div>").addClass("card col-3 m-2").attr("style", "width: 18rem");
+                var $cardDiv = $("<div>").addClass("card col-3 my-2 mx-1").attr("style", "width: 18rem");
 
                 var $cardImg = $("<img>").addClass("card-img-top gif mx-auto").attr("src", response.data[i].images.fixed_height_still.url).attr("data-still", response.data[i].images.fixed_height_still.url).attr("data-animate", response.data[i].images.fixed_height.url).attr("data-state", "still");;
 
@@ -27,7 +27,7 @@ $(document).ready(function() {
                 $cardDiv.append($cardImg).append($cardBody);
 
                 $("#gifs-go-here").append($cardDiv);
-                
+
             };
         });
 
@@ -44,6 +44,10 @@ $(document).ready(function() {
         }
     }
 
+    function addFavorite() {
+        
+    }
+
     $("#add-topic").on("click", function (event) {
         event.preventDefault();
         var topic = $("#topic-input").val();
@@ -58,7 +62,7 @@ $(document).ready(function() {
 
     $(document).on("click", ".topic", displayGifs);
 
-    $(document).on("click", ".gif", function () {  
+    $(document).on("click", ".gif", function () {
         var state = $(this).attr("data-state");
         if (state === "still") {
             $(this).attr("src", $(this).attr("data-animate")).attr("data-state", "animate");
