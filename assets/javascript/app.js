@@ -20,7 +20,7 @@ $(document).ready(function () {
 
                 var $cardBody = $("<div>").addClass("card-body text-center");
 
-                var $cardText = $("<p>").addClass("card-text font-weight-bold").text("Rating: " + response.data[i].rating);
+                var $cardText = $("<p>").addClass("card-text font-weight-bold").text("Rating: " + response.data[i].rating.toUpperCase());
 
                 $cardBody.append($cardText);
 
@@ -45,7 +45,27 @@ $(document).ready(function () {
     }
 
     function addFavorite() {
-        
+        var testObj = {
+            firstName: "Nate",
+            lastName: "Micinski",
+            address: {
+                street: "Catalina",
+                zip: 91106
+            }
+        };
+        localStorage.setItem("userInfo", JSON.stringify(testObj));
+
+        var retrievedFromStorage = JSON.parse(localStorage.getItem("userInfo"));
+
+        console.log("Returns [object Object]: " + retrievedFromStorage);
+        console.log("Returns last name: " + retrievedFromStorage.lastName);
+        console.log("Returns zip: " + retrievedFromStorage.address.zip);
+
+        console.log("Returns last name: " + JSON.parse(localStorage.getItem("userInfo")).lastName);
+    }
+
+    function displayFavorites() {
+        localStorage.getItem("key");
     }
 
     $("#add-topic").on("click", function (event) {
@@ -72,4 +92,6 @@ $(document).ready(function () {
     });
 
     renderButtons(topics);
+
+    addFavorite();
 });
