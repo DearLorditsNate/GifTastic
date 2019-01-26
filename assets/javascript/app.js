@@ -1,6 +1,23 @@
 $(document).ready(function () {
 
+    /*
+    ===============================
+    Global Variables
+    ===============================
+    */
+
+    // Buttons Array
     var topics = ["cat", "dog", "horse", "frog", "snake", "hamster", "fish", "bird", "aligator", "buffalo", "eagle"];
+
+    // Favorites Object
+    var favsObj = {
+            firstName: "Nate",
+            lastName: "Micinski",
+            address: {
+                street: "Catalina",
+                zip: 91106
+            }
+        };
 
     var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=1Wgl9oZdl7S0d1OGv2FAM6O2EpIyGU7T&limit=10&rating=pg&q=";
 
@@ -14,23 +31,34 @@ $(document).ready(function () {
             $("#gifs-go-here").empty();
             for (var i = 0; i < response.data.length; i++) {
 
-                var $cardDiv = $("<div>").addClass("card col-3 my-2 mx-1").attr("style", "width: 18rem");
+                var $cardDiv = cardBuilder(response, i);
 
-                var $cardImg = $("<img>").addClass("card-img-top gif mx-auto").attr("src", response.data[i].images.fixed_height_still.url).attr("data-still", response.data[i].images.fixed_height_still.url).attr("data-animate", response.data[i].images.fixed_height.url).attr("data-state", "still");;
-
-                var $cardBody = $("<div>").addClass("card-body text-center");
-
-                var $cardText = $("<p>").addClass("card-text font-weight-bold").text("Rating: " + response.data[i].rating.toUpperCase());
-
-                $cardBody.append($cardText);
-
-                $cardDiv.append($cardImg).append($cardBody);
 
                 $("#gifs-go-here").append($cardDiv);
 
             };
         });
 
+    }
+
+    function cardBuilder(response, i) {
+        var $cardDiv = $("<div>").addClass("card col-3 my-2 mx-1").attr("style", "width: 18rem");
+
+        var $cardImg = $("<img>").addClass("card-img-top gif mx-auto").attr("src", response.data[i].images.fixed_height_still.url).attr("data-still", response.data[i].images.fixed_height_still.url).attr("data-animate", response.data[i].images.fixed_height.url).attr("data-state", "still");;
+
+        var $cardBody = $("<div>").addClass("card-body text-center");
+
+        var $cardText = $("<p>").addClass("card-text font-weight-bold").text("Rating: " + response.data[i].rating.toUpperCase());
+
+        var $cardButton = $("<button>").text("test");
+
+        $cardText.append($cardButton);
+
+        $cardBody.append($cardText);
+
+        $cardDiv.append($cardImg).append($cardBody);
+
+        return $cardDiv
     }
 
     function renderButtons(arr) {
@@ -44,16 +72,28 @@ $(document).ready(function () {
         }
     }
 
+    // function addFavorite() {
+    //     var testObj = {
+    //         firstName: "Nate",
+    //         lastName: "Micinski",
+    //         address: {
+    //             street: "Catalina",
+    //             zip: 91106
+    //         }
+    //     };
+    //     localStorage.setItem("userInfo", JSON.stringify(testObj));
+
+    //     var retrievedFromStorage = JSON.parse(localStorage.getItem("userInfo"));
+
+    //     console.log("Returns [object Object]: " + retrievedFromStorage);
+    //     console.log("Returns last name: " + retrievedFromStorage.lastName);
+    //     console.log("Returns zip: " + retrievedFromStorage.address.zip);
+
+    //     console.log("Returns last name: " + JSON.parse(localStorage.getItem("userInfo")).lastName);
+    // }
+
     function addFavorite() {
-        var testObj = {
-            firstName: "Nate",
-            lastName: "Micinski",
-            address: {
-                street: "Catalina",
-                zip: 91106
-            }
-        };
-        localStorage.setItem("userInfo", JSON.stringify(testObj));
+        localStorage.setItem("userInfo", JSON.stringify(favsObj));
 
         var retrievedFromStorage = JSON.parse(localStorage.getItem("userInfo"));
 
