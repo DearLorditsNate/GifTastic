@@ -9,7 +9,11 @@ $(document).ready(function () {
     // Buttons Array
     var topics = ["cat", "dog", "horse", "frog", "snake", "hamster", "fish", "bird", "aligator", "buffalo", "eagle"];
 
+    // Initialize favorites array
     var favorites = [];
+
+    // Favorites array retrieved from local storage
+    var retrievedFromStorage = JSON.parse(localStorage.getItem("favorites"));
 
     var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=1Wgl9oZdl7S0d1OGv2FAM6O2EpIyGU7T&limit=10&rating=pg&q=";
 
@@ -38,22 +42,63 @@ $(document).ready(function () {
 
     }
 
-    function displayFavorites() {
-        
+    function displayFavorites(retrievedFromStorage) {
+        for (var i = 0; i < retrievedFromStorage.length; i++) {
+            var $cardDiv = $("<div>")
+                .addClass("card col-6 my-2 mx-1")
+                .attr("style", "width: 18rem");
+
+            var $cardImg = $("<img>")
+                .addClass("card-img-top gif mx-auto")
+                .attr("src", retrievedFromStorage[i].still)
+                .attr("data-still", retrievedFromStorage[i].still)
+                .attr("data-animate", retrievedFromStorage[i].animated)
+                .attr("data-state", "still");
+
+            var $cardBody = $("<div>").addClass("card-body text-center");
+
+            var $cardText = $("<p>")
+                .addClass("card-text font-weight-bold")
+                .attr("data-rating", retrievedFromStorage[i].rating)
+                .text("Rating: " + retrievedFromStorage[i].rating.toUpperCase());
+
+            var $cardButton = $("<button>")
+                .addClass("remove-fav")
+                .text("Remove Favorite");
+
+            $cardBody.append($cardText);
+
+            $cardBody.append($cardButton);
+
+            $cardDiv.append($cardImg).append($cardBody);
+
+            $("#favs-go-here").append($cardDiv);
+
+        }
     }
 
     function cardBuilder(response, i) {
-        var $cardDiv = $("<div>").addClass("card col-3 my-2 mx-1").attr("style", "width: 18rem");
+        var $cardDiv = $("<div>")
+          .addClass("card col-3 my-2 mx-1")
+          .attr("style", "width: 18rem");
 
-        var $cardImg = $("<img>").addClass("card-img-top gif mx-auto").attr("src", response.data[i].images.fixed_height_still.url).attr("data-still", response.data[i].images.fixed_height_still.url).attr("data-animate", response.data[i].images.fixed_height.url).attr("data-state", "still");;
+        var $cardImg = $("<img>")
+          .addClass("card-img-top gif mx-auto")
+          .attr("src", response.data[i].images.fixed_height_still.url)
+          .attr("data-still", response.data[i].images.fixed_height_still.url)
+          .attr("data-animate", response.data[i].images.fixed_height.url)
+          .attr("data-state", "still");
 
         var $cardBody = $("<div>").addClass("card-body text-center");
 
-        var $cardText = $("<p>").addClass("card-text font-weight-bold").text("Rating: " + response.data[i].rating.toUpperCase());
+        var $cardText = $("<p>")
+          .addClass("card-text font-weight-bold")
+          .attr("data-rating", response.data[i].rating)
+          .text("Rating: " + response.data[i].rating.toUpperCase());
 
-        var $cardButton = $("<button>").addClass("favorite").text("Add Favorite");
-
-        // $cardText.append($cardButton);
+        var $cardButton = $("<button>")
+          .addClass("add-fav")
+          .text("Add Favorite");
 
         $cardBody.append($cardText);
 
@@ -61,7 +106,7 @@ $(document).ready(function () {
 
         $cardDiv.append($cardImg).append($cardBody);
 
-        return $cardDiv
+        return $cardDiv;
     }
 
     function renderButtons(arr) {
@@ -121,14 +166,18 @@ $(document).ready(function () {
     });
 
     // Add favorite
-    $(document).on("click", ".favorite", function() {
+    $(document).on("click", ".add-fav", function() {
         var still = $(this).parent().parent().children("img").attr("src");
+
         var animated = $(this).parent().parent().children("img").attr("data-animate");
 
-        var favObj = {};
+        var rating = $(this).siblings("p").attr("data-rating");
 
-        favObj.still = still;
-        favObj.animated = animated;
+        var favObj = {
+            still: still,
+            animated: animated,
+            rating: rating
+        };
 
         favorites.push(favObj);
 
@@ -147,4 +196,6 @@ $(document).ready(function () {
 
     // Test
     // addFavorite();
+
+    displayFavorites(retrievedFromStorage);
 });
