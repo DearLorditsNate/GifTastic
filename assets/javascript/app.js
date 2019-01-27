@@ -51,7 +51,8 @@ $(document).ready(function () {
         for (var i = 0; i < favorites.length; i++) {
             var $cardDiv = $("<div>")
                 .addClass("card col-6 my-2 mx-1")
-                .attr("style", "width: 18rem");
+                .attr("style", "width: 18rem")
+                .attr("data-index", i);
 
             var $cardImg = $("<img>")
                 .addClass("card-img-top gif mx-auto")
@@ -78,32 +79,31 @@ $(document).ready(function () {
             $cardDiv.append($cardImg).append($cardBody);
 
             $("#favs-go-here").append($cardDiv);
-
         }
     }
 
     function cardBuilder(response, i) {
         var $cardDiv = $("<div>")
-          .addClass("card col-3 my-2 mx-1")
-          .attr("style", "width: 18rem");
+            .addClass("card col-3 my-2 mx-1")
+            .attr("style", "width: 18rem");
 
         var $cardImg = $("<img>")
-          .addClass("card-img-top gif mx-auto")
-          .attr("src", response.data[i].images.fixed_height_still.url)
-          .attr("data-still", response.data[i].images.fixed_height_still.url)
-          .attr("data-animate", response.data[i].images.fixed_height.url)
-          .attr("data-state", "still");
+            .addClass("card-img-top gif mx-auto")
+            .attr("src", response.data[i].images.fixed_height_still.url)
+            .attr("data-still", response.data[i].images.fixed_height_still.url)
+            .attr("data-animate", response.data[i].images.fixed_height.url)
+            .attr("data-state", "still");
 
         var $cardBody = $("<div>").addClass("card-body text-center");
 
         var $cardText = $("<p>")
-          .addClass("card-text font-weight-bold")
-          .attr("data-rating", response.data[i].rating)
-          .text("Rating: " + response.data[i].rating.toUpperCase());
+            .addClass("card-text font-weight-bold")
+            .attr("data-rating", response.data[i].rating)
+            .text("Rating: " + response.data[i].rating.toUpperCase());
 
         var $cardButton = $("<button>")
-          .addClass("add-fav")
-          .text("Add Favorite");
+            .addClass("add-fav")
+            .text("Add Favorite");
 
         $cardBody.append($cardText);
 
@@ -123,6 +123,17 @@ $(document).ready(function () {
 
             $("#buttons-list").append($button);
         }
+    }
+
+    function updateFavs() {
+        // Updates local storage with new favs object
+        localStorage.setItem("favorites", JSON.stringify(favorites));
+
+        // Clears favorite gifs to prevent dupes
+        $("#favs-go-here").empty();
+
+        // Renders favorites list
+        displayFavorites(favorites);
     }
 
     /*
@@ -158,13 +169,17 @@ $(document).ready(function () {
     });
 
     // Add favorite
-    $(document).on("click", ".add-fav", function() {
+    $(document).on("click", ".add-fav", function () {
+        // Grabs still URL from associated image
         var still = $(this).parent().parent().children("img").attr("src");
 
+        // Grabs animated URL from associated image
         var animated = $(this).parent().parent().children("img").attr("data-animate");
 
+        // Grabs rating from associated image
         var rating = $(this).siblings("p").attr("data-rating");
 
+        // Creates new object storing clicked item's URLs and rating
         var favObj = {
             still: still,
             animated: animated,
@@ -173,11 +188,19 @@ $(document).ready(function () {
 
         favorites.push(favObj);
 
-        localStorage.setItem("favorites", JSON.stringify(favorites));
+        updateFavs();
 
-        $("#favs-go-here").empty();
+    });
 
-        displayFavorites(favorites);
+    // Remove favorite
+    $(document).on("click", ".remove-fav", function () {
+        // Grabs array index of clicked item
+        var index = $(this).parent().parent().attr("data-index");
+
+        // Removes item from favorites array
+        favorites.splice(index, 1);
+
+        updateFavs();
 
     });
 
@@ -186,7 +209,7 @@ $(document).ready(function () {
     Function Calls
     ===============================
     */
-   
+
     // Render starting buttons
     renderButtons(topics);
 
