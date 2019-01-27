@@ -15,6 +15,11 @@ $(document).ready(function () {
     // Favorites array retrieved from local storage
     var retrievedFromStorage = JSON.parse(localStorage.getItem("favorites"));
 
+    // Update favorites array with items from local storage if items exist
+    if (retrievedFromStorage) {
+        favorites = retrievedFromStorage;
+    };
+
     var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=1Wgl9oZdl7S0d1OGv2FAM6O2EpIyGU7T&limit=10&rating=pg&q=";
 
     /*
@@ -42,25 +47,25 @@ $(document).ready(function () {
 
     }
 
-    function displayFavorites(retrievedFromStorage) {
-        for (var i = 0; i < retrievedFromStorage.length; i++) {
+    function displayFavorites(favorites) {
+        for (var i = 0; i < favorites.length; i++) {
             var $cardDiv = $("<div>")
                 .addClass("card col-6 my-2 mx-1")
                 .attr("style", "width: 18rem");
 
             var $cardImg = $("<img>")
                 .addClass("card-img-top gif mx-auto")
-                .attr("src", retrievedFromStorage[i].still)
-                .attr("data-still", retrievedFromStorage[i].still)
-                .attr("data-animate", retrievedFromStorage[i].animated)
+                .attr("src", favorites[i].still)
+                .attr("data-still", favorites[i].still)
+                .attr("data-animate", favorites[i].animated)
                 .attr("data-state", "still");
 
             var $cardBody = $("<div>").addClass("card-body text-center");
 
             var $cardText = $("<p>")
                 .addClass("card-text font-weight-bold")
-                .attr("data-rating", retrievedFromStorage[i].rating)
-                .text("Rating: " + retrievedFromStorage[i].rating.toUpperCase());
+                .attr("data-rating", favorites[i].rating)
+                .text("Rating: " + favorites[i].rating.toUpperCase());
 
             var $cardButton = $("<button>")
                 .addClass("remove-fav")
@@ -118,19 +123,6 @@ $(document).ready(function () {
 
             $("#buttons-list").append($button);
         }
-    }
-
-    function addFavorite() {
-
-        localStorage.setItem("userInfo", JSON.stringify(favsObj));
-
-        var retrievedFromStorage = JSON.parse(localStorage.getItem("userInfo"));
-
-        console.log("Returns [object Object]: " + retrievedFromStorage);
-        console.log("Returns last name: " + retrievedFromStorage.lastName);
-        console.log("Returns zip: " + retrievedFromStorage.address.zip);
-
-        console.log("Returns last name: " + JSON.parse(localStorage.getItem("userInfo")).lastName);
     }
 
     /*
@@ -194,8 +186,6 @@ $(document).ready(function () {
     // Render starting buttons
     renderButtons(topics);
 
-    // Test
-    // addFavorite();
-
-    displayFavorites(retrievedFromStorage);
+    // Render starting favs
+    displayFavorites(favorites);
 });
