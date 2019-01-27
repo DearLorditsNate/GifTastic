@@ -175,6 +175,10 @@ $(document).ready(function () {
 
         localStorage.setItem("favorites", JSON.stringify(favorites));
 
+        $("#favs-go-here").empty();
+
+        displayFavorites(favorites);
+
     });
 
     /*
