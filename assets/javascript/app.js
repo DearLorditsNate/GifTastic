@@ -9,17 +9,15 @@ $(document).ready(function () {
     // Buttons Array
     var topics = ["cat", "dog", "horse", "frog", "snake", "hamster", "fish", "bird", "aligator", "buffalo", "eagle"];
 
-    // Favorites Object
-    var favsObj = {
-            firstName: "Nate",
-            lastName: "Micinski",
-            address: {
-                street: "Catalina",
-                zip: 91106
-            }
-        };
+    var favorites = [];
 
     var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=1Wgl9oZdl7S0d1OGv2FAM6O2EpIyGU7T&limit=10&rating=pg&q=";
+
+    /*
+    ===============================
+    Function Declarations
+    ===============================
+    */
 
     function displayGifs() {
         var $thisTopic = $(this).attr("data-name");
@@ -33,12 +31,15 @@ $(document).ready(function () {
 
                 var $cardDiv = cardBuilder(response, i);
 
-
                 $("#gifs-go-here").append($cardDiv);
 
             };
         });
 
+    }
+
+    function displayFavorites() {
+        
     }
 
     function cardBuilder(response, i) {
@@ -50,11 +51,13 @@ $(document).ready(function () {
 
         var $cardText = $("<p>").addClass("card-text font-weight-bold").text("Rating: " + response.data[i].rating.toUpperCase());
 
-        var $cardButton = $("<button>").text("test");
+        var $cardButton = $("<button>").addClass("favorite").text("Add Favorite");
 
-        $cardText.append($cardButton);
+        // $cardText.append($cardButton);
 
         $cardBody.append($cardText);
+
+        $cardBody.append($cardButton);
 
         $cardDiv.append($cardImg).append($cardBody);
 
@@ -72,27 +75,8 @@ $(document).ready(function () {
         }
     }
 
-    // function addFavorite() {
-    //     var testObj = {
-    //         firstName: "Nate",
-    //         lastName: "Micinski",
-    //         address: {
-    //             street: "Catalina",
-    //             zip: 91106
-    //         }
-    //     };
-    //     localStorage.setItem("userInfo", JSON.stringify(testObj));
-
-    //     var retrievedFromStorage = JSON.parse(localStorage.getItem("userInfo"));
-
-    //     console.log("Returns [object Object]: " + retrievedFromStorage);
-    //     console.log("Returns last name: " + retrievedFromStorage.lastName);
-    //     console.log("Returns zip: " + retrievedFromStorage.address.zip);
-
-    //     console.log("Returns last name: " + JSON.parse(localStorage.getItem("userInfo")).lastName);
-    // }
-
     function addFavorite() {
+
         localStorage.setItem("userInfo", JSON.stringify(favsObj));
 
         var retrievedFromStorage = JSON.parse(localStorage.getItem("userInfo"));
@@ -104,10 +88,13 @@ $(document).ready(function () {
         console.log("Returns last name: " + JSON.parse(localStorage.getItem("userInfo")).lastName);
     }
 
-    function displayFavorites() {
-        localStorage.getItem("key");
-    }
+    /*
+    ===============================
+    Click Handlers
+    ===============================
+    */
 
+    // Add new button
     $("#add-topic").on("click", function (event) {
         event.preventDefault();
         var topic = $("#topic-input").val();
@@ -120,8 +107,10 @@ $(document).ready(function () {
         }
     });
 
+    // Render gifs
     $(document).on("click", ".topic", displayGifs);
 
+    // Animate gifs
     $(document).on("click", ".gif", function () {
         var state = $(this).attr("data-state");
         if (state === "still") {
@@ -131,7 +120,31 @@ $(document).ready(function () {
         }
     });
 
+    // Add favorite
+    $(document).on("click", ".favorite", function() {
+        var still = $(this).parent().parent().children("img").attr("src");
+        var animated = $(this).parent().parent().children("img").attr("data-animate");
+
+        var favObj = {};
+
+        favObj.still = still;
+        favObj.animated = animated;
+
+        favorites.push(favObj);
+
+        localStorage.setItem("favorites", JSON.stringify(favorites));
+
+    });
+
+    /*
+    ===============================
+    Function Calls
+    ===============================
+    */
+   
+    // Render starting buttons
     renderButtons(topics);
 
-    addFavorite();
+    // Test
+    // addFavorite();
 });
