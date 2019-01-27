@@ -20,6 +20,7 @@ $(document).ready(function () {
         favorites = retrievedFromStorage;
     };
 
+    // Giphy Query URL
     var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=1Wgl9oZdl7S0d1OGv2FAM6O2EpIyGU7T&limit=10&rating=pg&q=";
 
     /*
@@ -29,17 +30,26 @@ $(document).ready(function () {
     */
 
     function displayGifs() {
+        // Gets data name of clicked button for query URL
         var $thisTopic = $(this).attr("data-name");
+
+        // API call to Giphy adding user-clicked tag parameter
         $.ajax({
             url: queryURL + $thisTopic,
             method: "GET"
         }).then(function (response) {
             console.log(response);
+            
+            // Clear gifs to prevent dupes
             $("#gifs-go-here").empty();
+
+            // Renders all gifs in API response (limit 10)
             for (var i = 0; i < response.data.length; i++) {
 
+                // Runs cardBuilder function and stores it
                 var $cardDiv = cardBuilder(response, i);
 
+                // Appends result of cardBuilder to the DOM
                 $("#gifs-go-here").append($cardDiv);
 
             };
@@ -48,7 +58,9 @@ $(document).ready(function () {
     }
 
     function displayFavorites(favorites) {
+        // Renders cards for each item in favorites array
         for (var i = 0; i < favorites.length; i++) {
+            // Creates all elements required for a Bootstrap card
             var $cardDiv = $("<div>")
                 .addClass("card col-6 my-2 mx-1")
                 .attr("style", "width: 18rem")
@@ -78,11 +90,13 @@ $(document).ready(function () {
 
             $cardDiv.append($cardImg).append($cardBody);
 
+            // Appends new card div to the DOM
             $("#favs-go-here").append($cardDiv);
         }
     }
 
     function cardBuilder(response, i) {
+        // Creates all elements required for a Bootstrap card
         var $cardDiv = $("<div>")
             .addClass("card col-3 my-2 mx-1")
             .attr("style", "width: 18rem");
@@ -111,16 +125,23 @@ $(document).ready(function () {
 
         $cardDiv.append($cardImg).append($cardBody);
 
+        // Returns a card div to be used in displayGifs function
         return $cardDiv;
     }
 
     function renderButtons(arr) {
+        // Clears buttons to prevent dupes
         $("#buttons-list").empty();
 
+        // Renders a button for each item in the topics array
         for (var i = 0; i < arr.length; i++) {
-            var $button = $("<button>");
-            $button.addClass("topic").attr("data-name", arr[i]).text(arr[i]);
+            // Creates button
+            var $button = $("<button>")
+              .addClass("topic")
+              .attr("data-name", arr[i])
+              .text(arr[i]);
 
+            // Appends button to the DOM
             $("#buttons-list").append($button);
         }
     }
@@ -145,7 +166,11 @@ $(document).ready(function () {
     // Add new button
     $("#add-topic").on("click", function (event) {
         event.preventDefault();
+
+        // Gets the user input
         var topic = $("#topic-input").val();
+
+        // Won't render empty buttons
         if (!topic.trim()) {
             alert("Enter something into the text box!");
         } else {
@@ -158,7 +183,7 @@ $(document).ready(function () {
     // Render gifs
     $(document).on("click", ".topic", displayGifs);
 
-    // Animate gifs
+    // Toggle gif animate/still state
     $(document).on("click", ".gif", function () {
         var state = $(this).attr("data-state");
         if (state === "still") {
