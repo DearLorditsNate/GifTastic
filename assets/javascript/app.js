@@ -196,7 +196,7 @@ $(document).ready(function () {
     // Add favorite
     $(document).on("click", ".add-fav", function () {
         // Grabs still URL from associated image
-        var still = $(this).parent().parent().children("img").attr("src");
+        var still = $(this).parent().parent().children("img").attr("data-still");
 
         // Grabs animated URL from associated image
         var animated = $(this).parent().parent().children("img").attr("data-animate");
